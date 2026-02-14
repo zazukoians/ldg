@@ -35,7 +35,7 @@ export class HeaderComponent extends HTMLElement {
           font-family: 'Inter', sans-serif;
           font-size: 1.25rem;
           font-weight: 700;
-          background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+          background: linear-gradient(135deg, #fff 0%, #3b82f6 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           margin: 0;
@@ -58,7 +58,7 @@ export class HeaderComponent extends HTMLElement {
         }
       </style>
       <header>
-        <h1>LD-VOWL Modern</h1>
+        <h1>LD-VOWL NG</h1>
         <div class="nav">
           <span class="active" id="nav-graph">Graph</span>
           <span id="nav-settings">Settings</span>
@@ -68,16 +68,25 @@ export class HeaderComponent extends HTMLElement {
       <div id="about-overlay" class="overlay">
         <div class="overlay-content">
           <div class="close-overlay" id="close-about">&times;</div>
-          <h2>LD-VOWL Modern</h2>
-          <p>LD-VOWL is a visualization tool for Linked Data that provides a VOWL-compliant representation of SPARQL endpoints.</p>
-          <p>Original idea and implementation by Marc Weise, Steffen Lohmann, and Florian Haag.</p>
-          <p>This modernized version was refactored with Antigravity by Adrian Gschwend, Qlevia AI, using Web Components, D3.js v7, and Sigma.js.</p>
-          <div class="links">
-            <a href="http://ldvowl.visualdataweb.org/" target="_blank">Official Website</a>
-            <a href="https://github.com/VisualDataWeb/LD-VOWL" target="_blank">Original GitHub</a>
+          <div class="about-header">
+             <img src="logo.png" alt="LD-VOWL NG Logo" class="about-logo">
+             <h2>LD-VOWL NG</h2>
           </div>
-          <hr style="border-top: 1px solid #334155; margin: 1rem 0;">
-          <p style="font-size: 0.8rem; opacity: 0.7;">Copyright (c) 2015-2016 Marc Weise, Steffen Lohmann, Florian Haag. Modernized by Antigravity in 2026.</p>
+          <p>LD-VOWL NG (Next Generation) is a premium visualization tool for Linked Data that provides a VOWL-compliant representation of arbitrary SPARQL endpoints.</p>
+          <div class="about-section">
+            <h4>History</h4>
+            <p>Based on the original idea and implementation by Marc Weise, Steffen Lohmann, and Florian Haag.</p>
+            <p>This modernized version was completely refactored by <strong>Adrian Gschwend</strong> using <strong>Antigravity</strong>. No legacy code was reused; the entire stack was rebuilt for the modern web using Web Components, D3.js v7, and Sigma.js.</p>
+          </div>
+          <div class="links">
+            <a href="https://github.com/VisualDataWeb/LD-VOWL" target="_blank">Project Home</a>
+            <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>
+          </div>
+          <hr style="border-top: 1px solid rgba(255,255,255,0.1); margin: 1.5rem 0;">
+          <p style="font-size: 0.75rem; opacity: 0.6; text-align: center;">
+            Copyright (c) 2015-2016 Marc Weise, Steffen Lohmann, Florian Haag.<br>
+            Modernized (c) 2026 Adrian Gschwend, Qlevia AI.
+          </p>
         </div>
       </div>
     `;
@@ -88,41 +97,73 @@ export class HeaderComponent extends HTMLElement {
         display: none;
         position: fixed;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.8);
-        z-index: 1000;
-        backdrop-filter: blur(8px);
+        background: rgba(2, 6, 23, 0.85);
+        z-index: 2000;
+        backdrop-filter: blur(12px);
         align-items: center;
         justify-content: center;
+        padding: 1rem;
       }
       .overlay.active { display: flex; }
       .overlay-content {
-        background: #1e293b;
-        padding: 2rem;
-        border-radius: 12px;
-        max-width: 500px;
+        background: #0f172a;
+        padding: 2.5rem;
+        border-radius: 16px;
+        max-width: 520px;
+        width: 100%;
         position: relative;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         color: #f8fafc;
       }
+      .about-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .about-logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 16px;
+        margin-bottom: 1rem;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .about-header h2 { margin: 0; font-size: 1.75rem; }
+      .about-section { margin: 1.5rem 0; }
+      .about-section h4 { 
+        font-size: 0.75rem; 
+        text-transform: uppercase; 
+        color: #3b82f6; 
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.1em;
+      }
+      .about-section p { font-size: 0.95rem; line-height: 1.6; opacity: 0.9; margin: 0.5rem 0; }
       .close-overlay {
         position: absolute;
-        top: 10px; right: 15px;
+        top: 16px; right: 20px;
         font-size: 1.5rem;
         cursor: pointer;
-        opacity: 0.5;
+        opacity: 0.4;
+        transition: opacity 0.2s;
       }
       .close-overlay:hover { opacity: 1; }
+      .links { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1.5rem; }
       .links a {
         color: #3b82f6;
-        margin-right: 1rem;
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: color 0.2s;
       }
+      .links a:hover { color: #60a5fa; }
     `;
     this.shadowRoot.appendChild(style);
 
     this.shadowRoot.querySelector('#nav-settings').addEventListener('click', () => {
-      window.dispatchEvent(new CustomEvent('toggle-sidebar', { detail: { open: true } }));
+      window.dispatchEvent(new CustomEvent('toggle-sidebar', {}));
     });
 
     const aboutOverlay = this.shadowRoot.querySelector('#about-overlay');

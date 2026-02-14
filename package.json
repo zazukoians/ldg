@@ -1,5 +1,5 @@
 {
-  "name": "ld-vowl",
+  "name": "ld-vowl-ng",
   "version": "0.1.0",
   "description": "Extract ontology information out of arbitrary SPARQL endpoints and visualize it using a modernized VOWL-like representation.",
   "author": "Marc Weise, Steffen Lohmann, Florian Haag. Modernized by Adrian Gschwend, Qlevia AI.",
