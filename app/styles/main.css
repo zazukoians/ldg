@@ -1,0 +1,162 @@
+.sparql {
+  font-family: monospace;
+}
+
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+ul.properties {
+  padding-left: 15px;
+}
+
+div.prop-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+div.panel-group {
+  margin-bottom: 5px;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding: 0;
+}
+
+div.main {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar {
+  margin-top: 15px;
+}
+
+.panel-title a:focus {
+  outline: 0;
+}
+
+/* small fix so deactivated namespace really looks deactivated */
+.btn-default:focus {
+  background-color: #fff;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header .navbar{
+  margin-bottom: 0;
+}
+
+.jumbotron {
+  margin-top: 30px;
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  margin-top: 20px;
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+div.prefix {
+  margin-left: 0;
+}
+
+.panel-body {
+  overflow-wrap: break-word;
+}
+
+td.prefix-table {
+  font-size: 12px;
+}
+
+.prop-list table {
+  margin-bottom: 0;
+}
+
+p.comment {
+  max-height: 130px;
+  overflow-y: scroll;
+}
+
+img.logo {
+  height: 20px;
+  width: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-right: 5px;
+}
+
+.app-name small {
+  font-size: 13px;
+  font-weight: bold;
+  color: #36c;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}

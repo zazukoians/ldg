@@ -1,0 +1,55 @@
+/* Global App Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  --bg-color: #0f172a;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-color);
+  font-family: 'Inter', sans-serif;
+  color: white;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  width: 100%;
+  height: 100%;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+vowl-graph,
+sigma-vowl-graph {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+header-component {
+  z-index: 10;
+}
+
+sidebar-component {
+  z-index: 20;
+}

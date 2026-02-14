@@ -1,0 +1,35 @@
+{
+  "name": "ld-vowl",
+  "version": "0.1.0",
+  "description": "Extract ontology information out of arbitrary SPARQL endpoints and visualize it using a modernized VOWL-like representation.",
+  "author": "Marc Weise, Steffen Lohmann, Florian Haag. Modernized by Adrian Gschwend, Qlevia AI.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "type": "module",
+  "dependencies": {
+    "@zazuko/prefixes": "^2.2.0",
+    "d3": "^7.9.0",
+    "graphology": "^0.26.0",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "sigma": "^3.0.2"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VisualDataWeb/LD-VOWL"
+  },
+  "keywords": [
+    "Linked Data",
+    "SPARQL",
+    "Visualization",
+    "VOWL",
+    "Sigma.js",
+    "D3.js"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,113 @@
+#graph {
+  background-color: #F8F8F8;
+}
+
+marker.subclass {
+  stroke-width: 2px;
+}
+
+circle {
+  fill:none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node circle.ring, .node rect.ring {
+  fill: #fff;
+  stroke: #f00;
+  stroke-width: 3px;
+}
+
+.node.active circle, .node.active rect {
+  stroke-width: 3px;
+}
+
+.node.active circle:first-child {
+  stroke: #f00;
+}
+
+.node.active rect {
+  stroke: #f90;
+}
+
+.node.activeIndex rect {
+  stroke: #f00;
+  stroke-width: 3px;
+}
+
+.node circle, .node rect, .property rect, .datatypeProperty rect, .subClassProperty rect, .type rect {
+  cursor: pointer;
+}
+
+.node.dragged circle, 
+.node.dragged rect, 
+.property.dragged rect, 
+.datatypeProperty.dragged rect, 
+.subClassProperty.dragged rect, 
+.type.dragged rect {
+  cursor: move;
+}
+
+.node circle, .node rect, .property rect {
+  fill: #acf;
+}
+
+.node circle.symbol {
+  fill: #69c;
+  stroke: #000;
+}
+
+.datatypeProperty rect {
+  fill: #9c6;
+}
+
+.subClassProperty  rect {
+  fill: #f8f8f8;
+}
+
+.extern circle {
+  fill: #36c;
+}
+
+.class.extern text {
+  fill: #fff;
+}
+
+.node circle.clazz:hover, .property rect:hover, .datatypeProperty rect:hover, .type rect:hover {
+  fill: #f00;
+}
+
+.node rect:hover {
+  fill: #f00;
+}
+
+.type rect {
+  fill: #FC3;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node text, .type text, .link text {
+  font: 12px sans-serif;
+  pointer-events: none;
+  stroke: none;
+}
+
+.link {
+  fill: none;
+}
+
+.link:hover text.text {
+  fill: #f00;
+}
+
+.disjointProperty {
+  stroke: #000;
+  stroke-width: 1px;
+}
+
+text.notification {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  fill: grey;
+}
