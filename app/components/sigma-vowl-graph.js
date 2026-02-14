@@ -72,11 +72,11 @@ export class SigmaVowlGraph extends HTMLElement {
                     y: Math.random(),
                     size: size,
                     color: color,
-                    type: node.type,
+                    vowlType: node.type, // Map custom type to attribute to avoid missing program error
                     uri: node.uri
                 });
             } else {
-                this._graph.mergeNodeAttributes(node.id, { size, color, label: node.name || node.uri.split(/[#\/]/).pop() });
+                this._graph.mergeNodeAttributes(node.id, { size, color, label: node.name || node.uri.split(/[#\/]/).pop(), vowlType: node.type });
             }
         });
 
@@ -96,9 +96,12 @@ export class SigmaVowlGraph extends HTMLElement {
         });
 
         // 3. Trigger Layout and Refresh
-        if (this._graph.order > 0) {
-            // Check if we need to run layout (synchronous FA2 assign is better than nothing for now)
-            forceAtlas2.assign(this._graph, { iterations: 50, settings: { gravity: 1 } });
+        try {
+            if (this._graph.order > 0 && forceAtlas2 && typeof forceAtlas2.assign === 'function') {
+                forceAtlas2.assign(this._graph, { iterations: 50, settings: { gravity: 1 } });
+            }
+        } catch (e) {
+            console.warn('[Sigma] Layout failed', e);
         }
 
         if (this._sigma) {
