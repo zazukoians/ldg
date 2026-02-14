@@ -29,6 +29,10 @@ const sidebar = document.querySelector('sidebar-component');
 const statusComp = document.querySelector('status-component');
 const appContainer = document.querySelector('.content-grid');
 
+// Initialize Query Log Component
+const queryLog = document.createElement('query-log-component');
+document.body.appendChild(queryLog);
+
 // Manage Renderer
 const rendererType = localStorage.getItem('vowl-renderer') || 'd3';
 let graph;
@@ -141,6 +145,11 @@ updateEndpointDisplay();
 window.addEventListener('start-extraction', () => {
   statusComp.log = 'Extraction started...';
   init();
+});
+
+window.addEventListener('open-query-log', () => {
+  queryLog.queries = requests.failedQueries;
+  queryLog.active = true;
 });
 
 window.addEventListener('stop-extraction', () => {

@@ -17,9 +17,8 @@ export class RelationExtractor {
         const query = this.queryFactory.getUnorderedClassClassRelationQuery(originClassURI, targetClassURI, limit, offset);
 
         try {
-            const response = await this.sparqlClient.query(query);
-            if (!response || !response.results || !response.results.bindings) return;
-            const bindings = response.results.bindings;
+            const bindings = await this.sparqlClient.query(query);
+            if (!bindings || bindings.length === 0) return;
 
             for (const binding of bindings) {
                 const currentURI = binding.prop.value;
@@ -55,9 +54,8 @@ export class RelationExtractor {
     async requestPropertyLabel(uri) {
         const query = this.queryFactory.getLabelQuery(uri);
         try {
-            const response = await this.sparqlClient.query(query);
-            if (!response || !response.results || !response.results.bindings) return;
-            const bindings = response.results.bindings;
+            const bindings = await this.sparqlClient.query(query);
+            if (!bindings || bindings.length === 0) return;
             if (bindings.length > 0 && bindings[0].label) {
                 this.properties.insertValue(uri, 'name', bindings[0].label.value);
             }
@@ -73,9 +71,9 @@ export class RelationExtractor {
 
         const query = this.queryFactory.getNumberOfCommonInstancesQuery(uri1, uri2);
         try {
-            const response = await this.sparqlClient.query(query);
-            if (!response || !response.results || !response.results.bindings || !response.results.bindings[0]) return;
-            const commonCount = parseInt(response.results.bindings[0]?.commonInstanceCount?.value || 0);
+            const bindings = await this.sparqlClient.query(query);
+            if (!bindings || !bindings[0]) return;
+            const commonCount = parseInt(bindings[0]?.commonInstanceCount?.value || 0);
 
             if (commonCount > 0) {
                 const count1 = this.nodes.getInstanceCountById(id1);
@@ -113,9 +111,8 @@ export class RelationExtractor {
         const query = this.queryFactory.getUnorderedClassTypeRelationQuery(classURI, typeURI, limit, offset);
 
         try {
-            const response = await this.sparqlClient.query(query);
-            if (!response || !response.results || !response.results.bindings) return;
-            const bindings = response.results.bindings;
+            const bindings = await this.sparqlClient.query(query);
+            if (!bindings || bindings.length === 0) return;
 
             for (let i = 0; i < bindings.length; i++) {
                 const currentURI = bindings[i].prop.value;
@@ -154,9 +151,8 @@ export class DataTypeExtractor {
         const query = this.queryFactory.getInstanceReferringTypesQuery(classURI, 5);
 
         try {
-            const response = await this.sparqlClient.query(query);
-            if (!response || !response.results || !response.results.bindings) return;
-            const bindings = response.results.bindings;
+            const bindings = await this.sparqlClient.query(query);
+            if (!bindings || bindings.length === 0) return;
 
             const promises = [];
             for (const binding of bindings) {

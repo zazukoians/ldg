@@ -301,19 +301,22 @@ export class QueryFactory {
 
     getLabelQuery(uri, lang = 'en') {
         return this.getPrefixes() +
-            `SELECT (SAMPLE (?lbl) AS ?label) ` +
-            `WHERE { <${uri}> rdfs:label ?lbl. FILTER (langMatches(lang(?lbl), '${lang}')) }`;
+            `SELECT ?label ` +
+            `WHERE { <${uri}> rdfs:label ?label. FILTER (langMatches(lang(?label), '${lang}')) } LIMIT 1`;
     }
 
     getPreferredLabelQuery(uri, lang = 'en') {
         return this.getPrefixes() +
-            `SELECT ?label WHERE { <${uri}> skos:prefLabel ?label . FILTER (langMatches(lang(?label), '${lang}')) }`;
+            `SELECT ?label WHERE { <${uri}> skos:prefLabel ?label . FILTER (langMatches(lang(?label), '${lang}')) } LIMIT 1`;
     }
 
     getInstanceReferringTypesQuery(classURI, limit = 10) {
         return this.getPrefixes() +
             `SELECT (COUNT(?val) AS ?valCount) ?valType ` +
-            `WHERE { ?instance a <${classURI}> . ?instance ?prop ?val . BIND (datatype(?val) AS ?valType) . } ` +
+            `WHERE { ` +
+            `  { SELECT ?instance WHERE { ?instance a <${classURI}> } LIMIT 1000 } ` +
+            `  ?instance ?prop ?val . BIND (datatype(?val) AS ?valType) . ` +
+            `} ` +
             `GROUP BY ?valType ORDER BY DESC(?valCount) LIMIT ${limit}`;
     }
 

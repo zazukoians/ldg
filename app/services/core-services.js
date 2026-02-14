@@ -1,4 +1,5 @@
 // Modern framework-agnostic services
+import ParsingClient from 'sparql-http-client/ParsingClient.js';
 
 /**
  * Modern Storage Service
@@ -36,8 +37,27 @@ export class Requests {
         this.pending = 0;
         this.successful = 0;
         this.failed = 0;
-        this.lastStatus = [];
+        this.failedQueries = [];
         this._listeners = new Set();
+    }
+
+    addFailedQuery(query, endpoint, error) {
+        // Handle cases where the error message is unhelpful (like stream lock)
+        // and try to find a more descriptive message if possible.
+        let msg = error.message || error;
+        if (msg.includes('locked by another reader') && error.status) {
+            msg = `HTTP ${error.status}: ${msg}`;
+        }
+
+        this.failedQueries.unshift({
+            query,
+            endpoint,
+            error: msg,
+            timestamp: new Date().toISOString()
+        });
+        if (this.failedQueries.length > 50) {
+            this.failedQueries.pop();
+        }
     }
 
     onChange(callback) {
@@ -56,9 +76,9 @@ export class Requests {
     incPendingRequests() { this.pending++; this._notify(); }
     decPendingRequests() { this.pending--; this._notify(); }
     incSuccessfulRequests() { this.successful++; this._notify(); }
-    incFailedRequests(status) {
+    incFailedRequests(query, endpoint, err) {
         this.failed++;
-        this.lastStatus.unshift(status);
+        this.addFailedQuery(query, endpoint, err);
         this._notify();
     }
 }
@@ -79,6 +99,7 @@ export class RequestConfig {
     }
 
     getRequestURL() { return this.endpointURL; }
+    getEndpointURL() { return this.endpointURL; }
     setEndpointURL(url) {
         this.endpointURL = url;
         this.storage.setItem('endpoint', url);
@@ -112,6 +133,10 @@ export class SparqlClient {
         this._active = 0;
     }
 
+    _getClient() {
+        return new ParsingClient({ endpointUrl: this.requestConfig.getEndpointURL() });
+    }
+
     async query(query, abortSignal) {
         return new Promise((resolve, reject) => {
             this._queue.push({ query, abortSignal, resolve, reject });
@@ -126,35 +151,29 @@ export class SparqlClient {
         const { query, abortSignal, resolve, reject } = this._queue.shift();
         this._active++;
 
+        let incremented = false;
         try {
             if (this.requestConfig.queryDelay > 0) {
                 await new Promise(res => setTimeout(res, this.requestConfig.queryDelay));
             }
 
-            const config = this.requestConfig.forQuery(query, abortSignal);
-            // Append params to URL
-            Object.keys(config.params).forEach(key => config.url.searchParams.append(key, config.params[key]));
-
             this.requests.incPendingRequests();
+            incremented = true;
 
-            const response = await fetch(config.url, {
-                method: 'GET',
-                headers: config.headers,
-                signal: config.signal
-            });
+            const client = this._getClient();
+            const bindings = await client.query.select(query, { signal: abortSignal });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
             this.requests.decPendingRequests();
+            incremented = false;
+
             this.requests.incSuccessfulRequests();
-            resolve(data);
+            resolve(bindings);
         } catch (err) {
-            this.requests.decPendingRequests();
+            if (incremented) {
+                this.requests.decPendingRequests();
+            }
             if (err.name !== 'AbortError') {
-                this.requests.incFailedRequests(err.status || -1);
+                this.requests.incFailedRequests(query, this.requestConfig.getEndpointURL(), err);
             }
             reject(err);
         } finally {

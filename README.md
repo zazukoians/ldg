@@ -1,14 +1,21 @@
 # LDG (Linked Data Grapher)
 
-LDG extracts ontology information out of arbitrary SPARQL endpoints and shows the extracted information in an overview visualization using the VOWL notation (with minor modifications).
+LDG is like a map for your data. Point it at any database and it instantly draws a picture of how the different pieces of information are connected, helping you navigate complex datasets at a glance.
+
+## Performance & Scalability
+
+> [!IMPORTANT]
+> Analyzing the structure of an arbitrary SPARQL endpoint is inherently computationally expensive. LDG performs multiple discovery queries to identify classes, relationships, and datatypes.
+
+- **Endpoint Support**: The system is primarily optimized for [QLever](https://qlever.dev) endpoints. Other SPARQL implementations may experience timeouts or high memory usage on large datasets.
+- **Default Limits**: By default, LDG limits discovery to the **top 10 classes** to ensure responsiveness.
+- **Customization**: You can adjust the class limit, concurrency, and other parameters in the **Settings** dialog within the application.
 
 ## History
 
 [WebVOWL/LD-VOWL](https://github.com/VisualDataWeb/ld-vowl) was a powerful way to understand how things are connected in an RDF knowledge graph without having to explore the data manually. 
 
 This version is based on the innovative ideas of the original authors (Marc Weise, Steffen Lohmann, and Florian Haag). However, as the original codebase was more than a decade old, it has been refactored (probably more rewritten) using Antigravity. The entire application was rebuilt from scratch using Web Components, modern D3.js v7, and Sigma.js.
-
-The system is primarily tested on [QLever](https://qlever.dev) endpoints. Your mileage may vary with other SPARQL implementations.
 
 We enjoyed the process of breathing new life into this project and I hope you enjoy using it!
 

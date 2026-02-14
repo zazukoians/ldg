@@ -19,10 +19,14 @@ export class ClassExtractor {
         const query = this.queryFactory.getClassQuery(limit, 0);
 
         try {
-            const response = await this.sparqlClient.query(query);
-            if (!response.results || !response.results.bindings) return [];
+            const bindings = await this.sparqlClient.query(query);
+            if (!bindings || bindings.length === 0) {
+                this.nodes.emit('extraction-log', 'No classes found.');
+                return [];
+            }
 
-            const bindings = response.results.bindings;
+            this.nodes.emit('extraction-log', `Found ${bindings.length} classes. Requesting details...`);
+
             const classIds = [];
 
             for (const binding of bindings) {
@@ -49,7 +53,9 @@ export class ClassExtractor {
             }
 
             // After discovery of classes, look for relations between them
+            this.nodes.emit('extraction-log', 'Discovering relationships between classes...');
             await this.discoverRelations(classIds);
+            this.nodes.emit('extraction-log', 'Discovery complete.');
 
             return classIds;
         } catch (err) {
@@ -78,9 +84,9 @@ export class ClassExtractor {
         const query = this.queryFactory.getLabelQuery(uri, lang);
 
         try {
-            const response = await this.sparqlClient.query(query);
-            if (response.results && response.results.bindings && response.results.bindings[0]?.label) {
-                const label = response.results.bindings[0].label.value;
+            const bindings = await this.sparqlClient.query(query);
+            if (bindings && bindings[0]?.label) {
+                const label = bindings[0].label.value;
                 this.nodes.insertLabel(id, label);
             } else {
                 // Try SKOS if RDFS fails
@@ -95,9 +101,9 @@ export class ClassExtractor {
         const lang = this.requestConfig.labelLanguage || 'en';
         const query = this.queryFactory.getPreferredLabelQuery(uri, lang);
         try {
-            const response = await this.sparqlClient.query(query);
-            if (response.results && response.results.bindings && response.results.bindings[0]?.label) {
-                this.nodes.insertLabel(id, response.results.bindings[0].label.value);
+            const bindings = await this.sparqlClient.query(query);
+            if (bindings && bindings[0]?.label) {
+                this.nodes.insertLabel(id, bindings[0].label.value);
             }
         } catch (e) { /* ignore */ }
     }

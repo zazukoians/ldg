@@ -77,6 +77,7 @@ export class HeaderComponent extends HTMLElement {
         <div class="nav">
           <span class="active" id="nav-graph">Graph</span>
           <span id="nav-settings">Settings</span>
+          <span id="nav-query-log">Query Log</span>
           <span id="nav-about">About</span>
         </div>
       </header>
@@ -87,20 +88,20 @@ export class HeaderComponent extends HTMLElement {
              <img src="logo.png" alt="LDG Logo" class="about-logo">
              <h2>LDG</h2>
           </div>
-          <p>LDG (Linked Data Grapher) is a visualization tool for Linked Data that provides a VOWL-compliant representation of arbitrary SPARQL endpoints.</p>
+          <p>LDG is like a map for your data. Point it at any database and it instantly draws a picture of how the different pieces of information are connected, helping you navigate complex datasets at a glance.</p>
           <div class="about-section">
             <h4>History</h4>
             <p>Based on the concept of LD-VOWL by the original authors (Marc Weise, Steffen Lohmann, and Florian Haag).</p>
-            <p>This modernized version was refactored by <strong>Adrian Gschwend</strong> using <strong>Antigravity</strong>. The entire stack was rebuilt for the modern web using Web Components, D3.js v7, and Sigma.js.</p>
+            <p>This modernized version was refactored by Adrian Gschwend using Antigravity. The entire stack was rebuilt for the modern web using Web Components, D3.js, and Sigma.js.</p>
           </div>
           <div class="links">
-            <a href="https://github.com/VisualDataWeb/LD-VOWL" target="_blank">Project Home</a>
+            <a href="https://github.com/zazukoians/ldg" target="_blank">Project Home</a>
             <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>
           </div>
           <hr style="border-top: 1px solid rgba(255,255,255,0.1); margin: 1.5rem 0;">
           <p style="font-size: 0.75rem; opacity: 0.6; text-align: center;">
             Copyright (c) 2015-2016 Marc Weise, Steffen Lohmann, Florian Haag.<br>
-            Modernized (c) 2026 Adrian Gschwend, Qlevia AI.
+            Modernized (c) 2026 Qlevia AI.
           </p>
         </div>
       </div>
@@ -179,6 +180,10 @@ export class HeaderComponent extends HTMLElement {
 
     this.shadowRoot.querySelector('#nav-settings').addEventListener('click', () => {
       window.dispatchEvent(new CustomEvent('toggle-sidebar', { detail: { open: true } }));
+    });
+
+    this.shadowRoot.querySelector('#nav-query-log').addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('open-query-log'));
     });
 
     const aboutOverlay = this.shadowRoot.querySelector('#about-overlay');
@@ -735,3 +740,157 @@ export class StatusComponent extends HTMLElement {
   }
 }
 customElements.define('status-component', StatusComponent);
+
+/**
+ * Query Log Component (Modal)
+ */
+export class QueryLogComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._queries = [];
+    this._active = false;
+  }
+
+  set queries(data) {
+    this._queries = data;
+    this.render();
+  }
+
+  set active(value) {
+    this._active = value;
+    this.render();
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        .overlay {
+          display: ${this._active ? 'flex' : 'none'};
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(2, 6, 23, 0.85);
+          z-index: 2100;
+          backdrop-filter: blur(12px);
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+        }
+        .overlay-content {
+          background: #0f172a;
+          padding: 2rem;
+          border-radius: 16px;
+          max-width: 800px;
+          width: 100%;
+          max-height: 80vh;
+          overflow-y: auto;
+          position: relative;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+          color: #f8fafc;
+          font-family: 'Inter', sans-serif;
+        }
+        h2 { margin-top: 0; color: #f8fafc; font-size: 1.5rem; }
+        .close-btn {
+          position: absolute;
+          top: 16px; right: 20px;
+          font-size: 1.5rem;
+          cursor: pointer;
+          opacity: 0.4;
+          transition: opacity 0.2s;
+        }
+        .close-btn:hover { opacity: 1; }
+        .query-item {
+          background: rgba(30, 41, 59, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          border-radius: 8px;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          position: relative;
+        }
+        .query-meta {
+          font-size: 0.7rem;
+          color: #94a3b8;
+          margin-bottom: 0.5rem;
+          display: flex;
+          justify-content: space-between;
+        }
+        .query-error { color: #ef4444; font-weight: 600; font-size: 0.75rem; margin-top: 0.5rem; }
+        pre {
+          background: #020617;
+          padding: 1rem;
+          border-radius: 6px;
+          font-family: 'Fira Code', 'Monaco', monospace;
+          font-size: 0.75rem;
+          color: #3b82f6;
+          overflow-x: auto;
+          margin: 0;
+          white-space: pre-wrap;
+          word-break: break-all;
+        }
+        .copy-btn {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: #3b82f6;
+          border: none;
+          color: white;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 0.65rem;
+          font-weight: 600;
+          cursor: pointer;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+        .query-item:hover .copy-btn { opacity: 1; }
+        .empty-hint { text-align: center; opacity: 0.5; padding: 2rem; }
+      </style>
+      <div class="overlay">
+        <div class="overlay-content">
+          <div class="close-btn" id="close-modal">&times;</div>
+          <h2>Failed SPARQL Queries</h2>
+          ${this._queries.length === 0 ? '<div class="empty-hint">No failed queries recorded.</div>' : ''}
+          <div id="query-list">
+            ${this._queries.map((q, i) => `
+              <div class="query-item">
+                <button class="copy-btn" data-index="${i}">Copy</button>
+                <div class="query-meta">
+                  <span>Endpoint: ${q.endpoint}</span>
+                  <span>${new Date(q.timestamp).toLocaleTimeString()}</span>
+                </div>
+                <pre>${q.query.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+                <div class="query-error">${q.error}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+
+    const closeBtn = this.shadowRoot.querySelector('#close-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        this.active = false;
+        this.dispatchEvent(new CustomEvent('closed'));
+      });
+    }
+
+    this.shadowRoot.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = e.target.dataset.index;
+        const query = this._queries[index].query;
+        navigator.clipboard.writeText(query).then(() => {
+          const originalText = e.target.textContent;
+          e.target.textContent = 'Copied!';
+          setTimeout(() => e.target.textContent = originalText, 2000);
+        });
+      });
+    });
+  }
+}
+customElements.define('query-log-component', QueryLogComponent);
