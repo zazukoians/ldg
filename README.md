@@ -4,13 +4,13 @@ LDG extracts ontology information out of arbitrary SPARQL endpoints and shows th
 
 ## History
 
-WebVOWL/LD-VOWL is a powerful way to understand how things are connected in an RDF knowledge graph without having to explore the data manually. 
+[WebVOWL/LD-VOWL](https://github.com/VisualDataWeb/ld-vowl) was a powerful way to understand how things are connected in an RDF knowledge graph without having to explore the data manually. 
 
-This version is based on the innovative ideas of the original authors (Marc Weise, Steffen Lohmann, and Florian Haag). However, as the original codebase was more than a decade old, it has been refactored by **Adrian Gschwend** using **Antigravity**. The entire application was rebuilt from scratch using Web Components, modern D3.js v7, and Sigma.js.
+This version is based on the innovative ideas of the original authors (Marc Weise, Steffen Lohmann, and Florian Haag). However, as the original codebase was more than a decade old, it has been refactored (probably more rewritten) using Antigravity. The entire application was rebuilt from scratch using Web Components, modern D3.js v7, and Sigma.js.
 
-The system was primarily tested on **QLever** endpoints. Your mileage may vary (YMMV) with other SPARQL implementations.
+The system is primarily tested on [QLever](https://qlever.dev) endpoints. Your mileage may vary with other SPARQL implementations.
 
-I enjoyed the process of breathing new life into this project and I hope you enjoy using it!
+We enjoyed the process of breathing new life into this project and I hope you enjoy using it!
 
 LDG requires [Node.js](https://nodejs.org/) (v16+) to be built.
 
@@ -30,6 +30,3 @@ To get a production build, run `npm run build`. After the build is finished, the
 
 LDG is licensed under the MIT License. See LICENSE.txt for more details.
 
-## Demo
-
-A public demo is available at [http://ldvowl.visualdataweb.org](http://ldvowl.visualdataweb.org/).
