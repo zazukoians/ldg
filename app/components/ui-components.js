@@ -35,11 +35,23 @@ export class HeaderComponent extends HTMLElement {
           font-family: 'Inter', sans-serif;
           font-size: 1.25rem;
           font-weight: 700;
-          background: linear-gradient(135deg, #fff 0%, #3b82f6 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #f8fafc;
           margin: 0;
         }
+        .ldg-ctrl-btn {
+          background: #3b82f6;
+          border: none;
+          color: white;
+          padding: 4px 12px;
+          border-radius: 4px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .ldg-ctrl-btn:hover { background: #2563eb; }
+        .ldg-ctrl-btn.running { background: #ef4444; }
+        .ldg-ctrl-btn.running:hover { background: #dc2626; }
         .nav {
           display: flex;
           gap: 1.5rem;
@@ -58,7 +70,10 @@ export class HeaderComponent extends HTMLElement {
         }
       </style>
       <header>
-        <h1>LDG</h1>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <h1>LDG</h1>
+          <button id="toggle-extraction" class="ldg-ctrl-btn">Start</button>
+        </div>
         <div class="nav">
           <span class="active" id="nav-graph">Graph</span>
           <span id="nav-settings">Settings</span>
@@ -72,10 +87,10 @@ export class HeaderComponent extends HTMLElement {
              <img src="logo.png" alt="LDG Logo" class="about-logo">
              <h2>LDG</h2>
           </div>
-          <p>LDG (Linked Data Grapher) is a premium visualization tool for Linked Data that provides a VOWL-compliant representation of arbitrary SPARQL endpoints.</p>
+          <p>LDG (Linked Data Grapher) is a visualization tool for Linked Data that provides a VOWL-compliant representation of arbitrary SPARQL endpoints.</p>
           <div class="about-section">
             <h4>History</h4>
-            <p>Based on the original idea and implementation by Marc Weise, Steffen Lohmann, and Florian Haag.</p>
+            <p>Based on the concept of LD-VOWL by the original authors (Marc Weise, Steffen Lohmann, and Florian Haag).</p>
             <p>This modernized version was refactored by <strong>Adrian Gschwend</strong> using <strong>Antigravity</strong>. The entire stack was rebuilt for the modern web using Web Components, D3.js v7, and Sigma.js.</p>
           </div>
           <div class="links">
@@ -173,6 +188,25 @@ export class HeaderComponent extends HTMLElement {
     this.shadowRoot.querySelector('#close-about').addEventListener('click', () => {
       aboutOverlay.classList.remove('active');
     });
+
+    this.shadowRoot.querySelector('#toggle-extraction').addEventListener('click', (e) => {
+      const isRunning = e.target.classList.contains('running');
+      if (isRunning) {
+        e.target.textContent = 'Start';
+        e.target.classList.remove('running');
+        window.dispatchEvent(new CustomEvent('stop-extraction'));
+      } else {
+        e.target.textContent = 'Stop';
+        e.target.classList.add('running');
+        window.dispatchEvent(new CustomEvent('start-extraction'));
+      }
+    });
+
+    window.addEventListener('extraction-finished', () => {
+      const btn = this.shadowRoot.querySelector('#toggle-extraction');
+      btn.textContent = 'Start';
+      btn.classList.remove('running');
+    });
   }
 }
 
@@ -187,7 +221,7 @@ export class SidebarComponent extends HTMLElement {
     this._selected = null;
     this._open = false;
     this._activeGroup = null;
-    this._configs = { endpoints: [], filters: [], themes: [] };
+    this._configs = { endpoints: [], filters: [], themes: [], settings: [] };
   }
 
   set open(value) {
@@ -226,35 +260,21 @@ export class SidebarComponent extends HTMLElement {
 
   async loadConfigs() {
     try {
-      const [endpoints, filters, themes] = await Promise.all([
+      const [endpoints, filters, themes, settings] = await Promise.all([
         fetch('config/endpoints.json').then(r => r.json()),
         fetch('config/filters.json').then(r => r.json()),
-        fetch('config/themes.json').then(r => r.json())
+        fetch('config/themes.json').then(r => r.json()),
+        fetch('config/settings.json').then(r => r.json())
       ]);
-      this._configs = { endpoints, filters, themes };
+      this._configs = { endpoints, filters, themes, settings: settings[0] };
     } catch (e) {
       console.error('Failed to load configs:', e);
     }
   }
 
   render() {
-    const statsHtml = `
-      <div class="group">
-        <h3>Statistics</h3>
-        <div class="stat-item">
-          <span>Pending Requests</span>
-          <span class="value">${this._stats.pending}</span>
-        </div>
-        <div class="stat-item">
-          <span>Successful</span>
-          <span class="value success">${this._stats.successful}</span>
-        </div>
-        <div class="stat-item">
-          <span>Errors</span>
-          <span class="value error">${this._stats.failed}</span>
-        </div>
-      </div>
-    `;
+    // Stats moved to StatusComponent (footer)
+    const statsHtml = '';
 
     const selectionHtml = this._selected ? `
       <div class="group">
@@ -497,18 +517,17 @@ export class SidebarComponent extends HTMLElement {
             </div>
           </div>
 
-          <div class="accordion-item" data-id="general"><span>General</span> <span class="icon">›</span></div>
+          <div class="accordion-item" data-id="general"><span>General Settings</span> <span class="icon">›</span></div>
           <div class="accordion-content" id="content-general">
+            <div class="control-row">
+              <span title="Maximum number of classes to extract.">Class Limit</span>
+              <input type="number" id="setting-limit" class="ldg-input" style="width: 60px; margin-bottom: 0;" value="${this._configs.settings.classLimit || 10}">
+            </div>
             <div class="control-row">
               <span title="Delay between SPARQL queries (ms). Lower for fast endpoints like QLever.">Query Delay</span>
               <input type="range" id="setting-delay" min="0" max="1000" value="100">
               <span id="delay-value" style="font-size: 0.7rem; width: 40px; text-align: right;">100ms</span>
             </div>
-          </div>
-
-          <div class="accordion-item" data-id="namespaces"><span>Namespaces</span> <span class="icon">›</span></div>
-          <div class="accordion-content" id="content-namespaces">
-            <div id="namespaces-list">No namespaces found</div>
           </div>
 
           <div class="accordion-item" data-id="endpoint"><span>Endpoint</span> <span class="icon">›</span></div>
@@ -602,6 +621,14 @@ export class SidebarComponent extends HTMLElement {
       });
     }
 
+    const limitInput = this.shadowRoot.querySelector('#setting-limit');
+    if (limitInput) {
+      limitInput.addEventListener('change', (e) => {
+        this.dispatchEvent(new CustomEvent('setting-changed', { detail: { type: 'limit', value: e.target.value }, bubbles: true, composed: true }));
+        localStorage.setItem('class-limit', e.target.value);
+      });
+    }
+
     const themeSelect = this.shadowRoot.querySelector('#theme-toggle');
     if (themeSelect) {
       themeSelect.value = localStorage.getItem('ldg-theme') || 'modern';
@@ -616,3 +643,95 @@ export class SidebarComponent extends HTMLElement {
 
 customElements.define('header-component', HeaderComponent);
 customElements.define('sidebar-component', SidebarComponent);
+
+/**
+ * Status Component (Footer)
+ */
+export class StatusComponent extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._stats = { pending: 0, successful: 0, failed: 0 };
+    this._log = 'Ready';
+    this._endpointName = '';
+  }
+
+  set stats(data) {
+    this._stats = data;
+    this.render();
+  }
+
+  set log(msg) {
+    this._log = msg;
+    this.render();
+  }
+
+  set endpointName(name) {
+    this._endpointName = name;
+    this.render();
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  render() {
+    const endpointDisplay = this._endpointName ? `<span style="color: #3b82f6; font-weight: 500;">${this._endpointName}</span>` : '';
+    this.shadowRoot.innerHTML = `
+      <style>
+        footer {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 28px;
+          background: rgba(15, 23, 42, 0.6);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          color: #94a3b8;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.75rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 1rem;
+          z-index: 1000;
+          pointer-events: none;
+        }
+        .stats {
+          display: flex;
+          gap: 1rem;
+        }
+        .stat span { font-weight: 600; color: #f8fafc; }
+        .success { color: #10b981 !important; }
+        .error { color: #ef4444 !important; }
+        .log {
+          flex: 1;
+          margin: 0 2rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: center;
+        }
+        .endpoint {
+            width: 150px;
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+      </style>
+      <footer>
+        <div class="stats">
+          <div class="stat">Pending: <span>${this._stats.pending}</span></div>
+          <div class="stat">Successful: <span class="success">${this._stats.successful}</span></div>
+          <div class="stat">Errors: <span class="error">${this._stats.failed}</span></div>
+        </div>
+        <div class="log">${this._log}</div>
+        <div class="endpoint">${endpointDisplay || 'LDG v0.2'}</div>
+      </footer>
+    `;
+  }
+}
+customElements.define('status-component', StatusComponent);

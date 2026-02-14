@@ -158,6 +158,7 @@ export class DataTypeExtractor {
             if (!response || !response.results || !response.results.bindings) return;
             const bindings = response.results.bindings;
 
+            const promises = [];
             for (const binding of bindings) {
                 if (binding.valType && binding.valType.value) {
                     const typeURI = binding.valType.value;
@@ -176,11 +177,12 @@ export class DataTypeExtractor {
                             });
 
                             this.properties.addProperty(classId, intermediateId, typeId, this.properties.PLACEHOLDER_PROP_URI);
-                            await this.relationExtractor.requestClassTypeRelation(classId, intermediateId, typeId);
+                            promises.push(this.relationExtractor.requestClassTypeRelation(classId, intermediateId, typeId));
                         }
                     }
                 }
             }
+            await Promise.all(promises);
             this.nodes.setTypesLoaded(classId);
         } catch (err) {
             console.error(`[DataTypeExtractor] Error fetching referring types for ${classId}:`, err);

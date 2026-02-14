@@ -1,43 +1,43 @@
 [
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemeModern",
+    "id": "https://github.com/zazuko/ldg/config#ThemeVSCodeDark",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
-    "label": "Modern Dark",
-    "identifier": "modern",
-    "primaryColor": "#3b82f6",
-    "secondaryColor": "#0f172a",
-    "nodeColor": "#1e293b",
-    "textColor": "#f8fafc"
+    "label": "VS Code Dark",
+    "identifier": "vscode-dark",
+    "primaryColor": "#007acc",
+    "secondaryColor": "#1e1e1e",
+    "nodeColor": "#252526",
+    "textColor": "#cccccc"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemePastelBlue",
+    "id": "https://github.com/zazuko/ldg/config#ThemeMonokai",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
-    "label": "Pastel Blue",
-    "identifier": "pastel-blue",
-    "primaryColor": "#a5f3fc",
-    "secondaryColor": "#f8fafc",
-    "nodeColor": "#ecfeff",
-    "textColor": "#0891b2"
+    "label": "Monokai",
+    "identifier": "monokai",
+    "primaryColor": "#a6e22e",
+    "secondaryColor": "#272822",
+    "nodeColor": "#3e3d32",
+    "textColor": "#f8f8f2"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemePastelRose",
+    "id": "https://github.com/zazuko/ldg/config#ThemeSolarizedDark",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
-    "label": "Pastel Rose",
-    "identifier": "pastel-rose",
-    "primaryColor": "#fecdd3",
-    "secondaryColor": "#fff1f2",
-    "nodeColor": "#fff1f2",
-    "textColor": "#be123c"
+    "label": "Solarized Dark",
+    "identifier": "solarized-dark",
+    "primaryColor": "#268bd2",
+    "secondaryColor": "#002b36",
+    "nodeColor": "#073642",
+    "textColor": "#839496"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemePastelGreen",
+    "id": "https://github.com/zazuko/ldg/config#ThemeDracula",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
-    "label": "Pastel Green",
-    "identifier": "pastel-green",
-    "primaryColor": "#bbf7d0",
-    "secondaryColor": "#f0fdf4",
-    "nodeColor": "#f0fdf4",
-    "textColor": "#15803d"
+    "label": "Dracula",
+    "identifier": "dracula",
+    "primaryColor": "#bd93f9",
+    "secondaryColor": "#282a36",
+    "nodeColor": "#44475a",
+    "textColor": "#f8f8f2"
   },
   {
     "id": "https://github.com/zazuko/ldg/config#ThemeVOWLClassic",

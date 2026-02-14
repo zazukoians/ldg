@@ -2,37 +2,37 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix : <https://github.com/zazuko/ldg/config#> .
 
-:ThemeModern a schema:CreativeWork ;
-    rdfs:label "Modern Dark" ;
-    schema:identifier "modern" ;
-    :primaryColor "#3b82f6" ;
-    :secondaryColor "#0f172a" ;
-    :nodeColor "#1e293b" ;
-    :textColor "#f8fafc" .
+:ThemeVSCodeDark a schema:CreativeWork ;
+    rdfs:label "VS Code Dark" ;
+    schema:identifier "vscode-dark" ;
+    :primaryColor "#007acc" ;
+    :secondaryColor "#1e1e1e" ;
+    :nodeColor "#252526" ;
+    :textColor "#cccccc" .
 
-:ThemePastelBlue a schema:CreativeWork ;
-    rdfs:label "Pastel Blue" ;
-    schema:identifier "pastel-blue" ;
-    :primaryColor "#a5f3fc" ;
-    :secondaryColor "#f8fafc" ;
-    :nodeColor "#ecfeff" ;
-    :textColor "#0891b2" .
+:ThemeMonokai a schema:CreativeWork ;
+    rdfs:label "Monokai" ;
+    schema:identifier "monokai" ;
+    :primaryColor "#a6e22e" ;
+    :secondaryColor "#272822" ;
+    :nodeColor "#3e3d32" ;
+    :textColor "#f8f8f2" .
 
-:ThemePastelRose a schema:CreativeWork ;
-    rdfs:label "Pastel Rose" ;
-    schema:identifier "pastel-rose" ;
-    :primaryColor "#fecdd3" ;
-    :secondaryColor "#fff1f2" ;
-    :nodeColor "#fff1f2" ;
-    :textColor "#be123c" .
+:ThemeSolarizedDark a schema:CreativeWork ;
+    rdfs:label "Solarized Dark" ;
+    schema:identifier "solarized-dark" ;
+    :primaryColor "#268bd2" ;
+    :secondaryColor "#002b36" ;
+    :nodeColor "#073642" ;
+    :textColor "#839496" .
 
-:ThemePastelGreen a schema:CreativeWork ;
-    rdfs:label "Pastel Green" ;
-    schema:identifier "pastel-green" ;
-    :primaryColor "#bbf7d0" ;
-    :secondaryColor "#f0fdf4" ;
-    :nodeColor "#f0fdf4" ;
-    :textColor "#15803d" .
+:ThemeDracula a schema:CreativeWork ;
+    rdfs:label "Dracula" ;
+    schema:identifier "dracula" ;
+    :primaryColor "#bd93f9" ;
+    :secondaryColor "#282a36" ;
+    :nodeColor "#44475a" ;
+    :textColor "#f8f8f2" .
 
 :ThemeVOWLClassic a schema:CreativeWork ;
     rdfs:label "VOWL Classic" ;

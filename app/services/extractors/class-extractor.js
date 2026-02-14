@@ -49,7 +49,7 @@ export class ClassExtractor {
             }
 
             // After discovery of classes, look for relations between them
-            this.discoverRelations(classIds);
+            await this.discoverRelations(classIds);
 
             return classIds;
         } catch (err) {
@@ -60,15 +60,17 @@ export class ClassExtractor {
 
     async discoverRelations(classIds) {
         if (!this.relationExtractor) return;
+        const promises = [];
         for (let i = 0; i < classIds.length; i++) {
             for (let j = 0; j < classIds.length; j++) {
                 if (i === j) continue;
                 // Discover relations between class pairs
-                this.relationExtractor.requestClassClassRelation(classIds[i], classIds[j]);
+                promises.push(this.relationExtractor.requestClassClassRelation(classIds[i], classIds[j]));
                 // Check for equality/subclass set relations
-                this.relationExtractor.requestClassEquality(classIds[i], classIds[j]);
+                promises.push(this.relationExtractor.requestClassEquality(classIds[i], classIds[j]));
             }
         }
+        await Promise.all(promises);
     }
 
     async requestClassLabel(id, uri) {

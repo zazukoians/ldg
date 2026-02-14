@@ -3,7 +3,7 @@
     "id": "https://github.com/zazuko/ldg/config#LINDAS",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Swiss Government LINDAS",
-    "endpoint": "https://lindas.admin.ch/query"
+    "endpoint": "https://qlever-server-showcase.zazukoians.org"
   },
   {
     "id": "https://github.com/zazuko/ldg/config#Wikidata",

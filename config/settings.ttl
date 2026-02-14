@@ -1,0 +1,9 @@
+@prefix schema: <http://schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <https://github.com/zazuko/ldg/config#> .
+
+:AppConfig a schema:PropertyValue ;
+    :classLimit 10 ;
+    :concurrency 5 ;
+    :autoStart false ;
+    :queryDelay 100 .

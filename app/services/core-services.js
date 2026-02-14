@@ -73,6 +73,7 @@ export class RequestConfig {
         this.limit = parseInt(storage.getItem('limit')) || 10;
         this.labelLanguage = storage.getItem('lang') || 'en';
         this.queryDelay = storage.getItem('query-delay') !== null ? parseInt(storage.getItem('query-delay')) : 100;
+        this.concurrency = parseInt(storage.getItem('concurrency')) || 1;
         this.format = 'application/sparql-results+json';
         this.timeout = '30s';
     }
@@ -101,26 +102,41 @@ export class RequestConfig {
 }
 
 /**
- * Modern SparqlClient
+ * Modern SparqlClient with Concurrency Control
  */
 export class SparqlClient {
     constructor(requestConfig, requests) {
         this.requestConfig = requestConfig;
         this.requests = requests;
+        this._queue = [];
+        this._active = 0;
     }
 
     async query(query, abortSignal) {
-        if (this.requestConfig.queryDelay > 0) {
-            await new Promise(resolve => setTimeout(resolve, this.requestConfig.queryDelay));
-        }
-        const config = this.requestConfig.forQuery(query, abortSignal);
+        return new Promise((resolve, reject) => {
+            this._queue.push({ query, abortSignal, resolve, reject });
+            this._processQueue();
+        });
+    }
 
-        // Append params to URL
-        Object.keys(config.params).forEach(key => config.url.searchParams.append(key, config.params[key]));
+    async _processQueue() {
+        const concurrency = this.requestConfig.concurrency || 1;
+        if (this._active >= concurrency || this._queue.length === 0) return;
 
-        this.requests.incPendingRequests();
+        const { query, abortSignal, resolve, reject } = this._queue.shift();
+        this._active++;
 
         try {
+            if (this.requestConfig.queryDelay > 0) {
+                await new Promise(res => setTimeout(res, this.requestConfig.queryDelay));
+            }
+
+            const config = this.requestConfig.forQuery(query, abortSignal);
+            // Append params to URL
+            Object.keys(config.params).forEach(key => config.url.searchParams.append(key, config.params[key]));
+
+            this.requests.incPendingRequests();
+
             const response = await fetch(config.url, {
                 method: 'GET',
                 headers: config.headers,
@@ -134,13 +150,16 @@ export class SparqlClient {
             const data = await response.json();
             this.requests.decPendingRequests();
             this.requests.incSuccessfulRequests();
-            return data;
+            resolve(data);
         } catch (err) {
             this.requests.decPendingRequests();
             if (err.name !== 'AbortError') {
                 this.requests.incFailedRequests(err.status || -1);
             }
-            throw err;
+            reject(err);
+        } finally {
+            this._active--;
+            this._processQueue();
         }
     }
 }

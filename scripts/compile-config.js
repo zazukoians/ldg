@@ -39,9 +39,14 @@ async function compileTTL(filename) {
                         key = p.replace('https://github.com/zazuko/ldg/config#', '');
                     }
 
-                    const val = t.object.termType === 'Literal' ?
+                    let val = t.object.termType === 'Literal' ?
                         (t.object.value === 'true' ? true : (t.object.value === 'false' ? false : t.object.value)) :
                         t.object.value;
+
+                    // Convert to number if applicable
+                    if (typeof val === 'string' && !isNaN(val) && val.trim() !== '') {
+                        val = Number(val);
+                    }
 
                     grouped[s][key] = val;
                 }
@@ -59,6 +64,7 @@ async function main() {
     await compileTTL('endpoints.ttl');
     await compileTTL('filters.ttl');
     await compileTTL('themes.ttl');
+    await compileTTL('settings.ttl');
 }
 
 main().catch(console.error);

@@ -5,7 +5,7 @@
 
 :LINDAS a schema:Dataset ;
     rdfs:label "Swiss Government LINDAS" ;
-    void:sparqlEndpoint <https://lindas.admin.ch/query> .
+    void:sparqlEndpoint <https://qlever-server-showcase.zazukoians.org> .
 
 :Wikidata a schema:Dataset ;
     rdfs:label "Wikidata" ;

@@ -6,7 +6,7 @@ import './components/vowl-graph.js';
 import './components/sigma-vowl-graph.js';
 import './components/ui-components.js';
 
-// Initialize Core Services
+
 const storage = new Storage(true);
 const requests = new Requests();
 const requestConfig = new RequestConfig(storage);
@@ -26,6 +26,7 @@ const classExtractor = new ClassExtractor(sparqlClient, queryFactory, nodes, req
 
 // Components
 const sidebar = document.querySelector('sidebar-component');
+const statusComp = document.querySelector('status-component');
 const appContainer = document.querySelector('.content-grid');
 
 // Manage Renderer
@@ -50,7 +51,8 @@ const savedEndpoint = localStorage.getItem('endpoint');
 if (savedEndpoint) {
   requestConfig.setEndpointURL(savedEndpoint);
 } else {
-  requestConfig.setEndpointURL('https://lindas.admin.ch/query');
+  // Use showcase server as default as requested (better performance)
+  requestConfig.setEndpointURL('https://qlever-server-showcase.zazukoians.org');
 }
 
 // Initial Theme Application
@@ -104,24 +106,94 @@ sidebar.addEventListener('setting-changed', (e) => {
   if (e.detail.type === 'delay') {
     requestConfig.queryDelay = parseInt(e.detail.value);
   }
+  if (e.detail.type === 'limit') {
+    requestConfig.limit = parseInt(e.detail.value);
+  }
+});
+
+// Sync requests to UI
+requests.onChange((stats) => {
+  statusComp.stats = stats;
+  sidebar.stats = stats;
 });
 
 function updateStats() {
-  sidebar.stats = {
-    pending: 0, // Mock for now
-    successful: nodes.getNodes().size,
-    failed: 0
-  };
+  // Stats are now handled by requests.onChange listener
+  // but we still update endpoint name if needed
+  updateEndpointDisplay();
 }
+
+async function updateEndpointDisplay() {
+  const currentUrl = requestConfig.getEndpointURL();
+  const endpoints = await fetch('config/endpoints.json').then(r => r.json());
+  const match = endpoints.find(e => e.endpoint === currentUrl);
+
+  if (match) {
+    statusComp.endpointName = match.label;
+  } else {
+    // Direct SPARQL override or unknown preset
+    statusComp.endpointName = currentUrl;
+  }
+}
+updateEndpointDisplay();
+
+// Extraction Control
+window.addEventListener('start-extraction', () => {
+  statusComp.log = 'Extraction started...';
+  init();
+});
+
+window.addEventListener('stop-extraction', () => {
+  statusComp.log = 'Stopped.';
+  // In a full implementation, we would abort current requests
+});
+
+nodes.on('extraction-log', (msg) => {
+  statusComp.log = msg;
+});
+
+nodes.on('extraction-complete', (endpoint) => {
+  statusComp.log = `Done on ${endpoint}`;
+  window.dispatchEvent(new CustomEvent('extraction-finished'));
+});
 
 // Initial Extraction
 async function init() {
   try {
-    console.log(`Starting full VOWL extraction with ${rendererType} renderer...`);
+    const limit = localStorage.getItem('class-limit') || 10;
+    requestConfig.limit = parseInt(limit);
+
+    statusComp.log = `Requesting ${requestConfig.limit} classes...`;
     await classExtractor.requestClasses();
+
+    const endpoint = requestConfig.getEndpointURL();
+    window.dispatchEvent(new CustomEvent('extraction-complete', { detail: endpoint }));
   } catch (err) {
     console.error('Initialization failed', err);
+    statusComp.log = 'Error during extraction.';
   }
 }
 
-init();
+// Check for auto-start in settings (default false)
+async function checkAutoStart() {
+  try {
+    const settings = await fetch('config/settings.json').then(r => r.json());
+    if (settings[0]) {
+      if (settings[0].concurrency) {
+        requestConfig.concurrency = settings[0].concurrency;
+      }
+      if (settings[0].autoStart) {
+        init();
+        window.dispatchEvent(new CustomEvent('extraction-status', { detail: 'running' }));
+      } else {
+        statusComp.log = 'Ready. Click "Start" to begin extraction.';
+      }
+    } else {
+      statusComp.log = 'Ready. Click "Start" to begin extraction.';
+    }
+  } catch (err) {
+    console.error('[Main] Failed to load settings', err);
+    statusComp.log = 'Ready. Click "Start" to begin extraction.';
+  }
+}
+checkAutoStart();
