@@ -1,6 +1,6 @@
 [
   {
-    "id": "https://github.com/zazuko/ldg/config#AppConfig",
+    "id": "https://github.com/zazukoians/ldg/config#AppConfig",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/PropertyValue",
     "classLimit": 10,
     "concurrency": 5,

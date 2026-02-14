@@ -35,8 +35,8 @@ async function compileTTL(filename) {
                     if (p === 'http://rdfs.org/ns/void#sparqlEndpoint') key = 'endpoint';
                     if (p === 'http://schema.org/identifier') key = 'identifier';
                     if (p === 'http://schema.org/defaultValue') key = 'defaultValue';
-                    if (p.startsWith('https://github.com/zazuko/ldg/config#')) {
-                        key = p.replace('https://github.com/zazuko/ldg/config#', '');
+                    if (p.startsWith('https://github.com/zazukoians/ldg/config#')) {
+                        key = p.replace('https://github.com/zazukoians/ldg/config#', '');
                     }
 
                     let val = t.object.termType === 'Literal' ?

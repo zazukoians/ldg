@@ -1,6 +1,6 @@
 [
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemeVSCodeDark",
+    "id": "https://github.com/zazukoians/ldg/config#ThemeVSCodeDark",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
     "label": "VS Code Dark",
     "identifier": "vscode-dark",
@@ -10,7 +10,7 @@
     "textColor": "#cccccc"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemeMonokai",
+    "id": "https://github.com/zazukoians/ldg/config#ThemeMonokai",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
     "label": "Monokai",
     "identifier": "monokai",
@@ -20,7 +20,7 @@
     "textColor": "#f8f8f2"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemeSolarizedDark",
+    "id": "https://github.com/zazukoians/ldg/config#ThemeSolarizedDark",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
     "label": "Solarized Dark",
     "identifier": "solarized-dark",
@@ -30,7 +30,7 @@
     "textColor": "#839496"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemeDracula",
+    "id": "https://github.com/zazukoians/ldg/config#ThemeDracula",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
     "label": "Dracula",
     "identifier": "dracula",
@@ -40,7 +40,7 @@
     "textColor": "#f8f8f2"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#ThemeVOWLClassic",
+    "id": "https://github.com/zazukoians/ldg/config#ThemeVOWLClassic",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
     "label": "VOWL Classic",
     "identifier": "vowl-classic",

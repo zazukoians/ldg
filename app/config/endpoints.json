@@ -1,96 +1,96 @@
 [
   {
-    "id": "https://github.com/zazuko/ldg/config#LINDAS",
+    "id": "https://github.com/zazukoians/ldg/config#LINDAS",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Swiss Government LINDAS",
     "endpoint": "https://qlever-server-showcase.zazukoians.org"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#Wikidata",
+    "id": "https://github.com/zazukoians/ldg/config#Wikidata",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Wikidata",
     "endpoint": "https://qlever.dev/api/wikidata"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#WikimediaCommons",
+    "id": "https://github.com/zazukoians/ldg/config#WikimediaCommons",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Wikimedia Commons",
     "endpoint": "https://qlever.dev/api/wikimedia-commons"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#Freebase",
+    "id": "https://github.com/zazukoians/ldg/config#Freebase",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Freebase",
     "endpoint": "https://qlever.dev/api/freebase"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#FreebaseEasy",
+    "id": "https://github.com/zazukoians/ldg/config#FreebaseEasy",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Freebase Easy",
     "endpoint": "https://qlever.dev/api/fbeasy"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#OSMPlanet",
+    "id": "https://github.com/zazukoians/ldg/config#OSMPlanet",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "OSM Planet",
     "endpoint": "https://qlever.dev/api/osm-planet"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#OHMPlanet",
+    "id": "https://github.com/zazukoians/ldg/config#OHMPlanet",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "OHM Planet",
     "endpoint": "https://qlever.dev/api/ohm-planet"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#UniProt",
+    "id": "https://github.com/zazukoians/ldg/config#UniProt",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "UniProt",
     "endpoint": "https://qlever.dev/api/uniprot"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#PubChem",
+    "id": "https://github.com/zazukoians/ldg/config#PubChem",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "PubChem",
     "endpoint": "https://qlever.dev/api/pubchem"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#DBLP",
+    "id": "https://github.com/zazukoians/ldg/config#DBLP",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "DBLP",
     "endpoint": "https://qlever.dev/api/dblp"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#IMDb",
+    "id": "https://github.com/zazukoians/ldg/config#IMDb",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "IMDb",
     "endpoint": "https://qlever.dev/api/imdb"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#DNB",
+    "id": "https://github.com/zazukoians/ldg/config#DNB",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Deutsche Nationalbibliothek",
     "endpoint": "https://qlever.dev/api/dnb"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#Yago3",
+    "id": "https://github.com/zazukoians/ldg/config#Yago3",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Yago 3",
     "endpoint": "https://qlever.dev/api/yago-3"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#Yago4",
+    "id": "https://github.com/zazukoians/ldg/config#Yago4",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Yago 4",
     "endpoint": "https://qlever.dev/api/yago-4"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#DBpedia",
+    "id": "https://github.com/zazukoians/ldg/config#DBpedia",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "DBpedia",
     "endpoint": "https://qlever.dev/api/dbpedia"
   },
   {
-    "id": "https://github.com/zazuko/ldg/config#Olympics",
+    "id": "https://github.com/zazukoians/ldg/config#Olympics",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/Dataset",
     "label": "Olympics",
     "endpoint": "https://qlever.dev/api/olympics"

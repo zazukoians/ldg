@@ -1,6 +1,6 @@
 @prefix schema: <http://schema.org/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix : <https://github.com/zazuko/ldg/config#> .
+@prefix : <https://github.com/zazukoians/ldg/config#> .
 
 :FilterDatatypes a schema:ControlAction ;
     rdfs:label "Datatypes" ;
