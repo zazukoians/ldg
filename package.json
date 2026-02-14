@@ -1,8 +1,8 @@
 {
   "name": "ldg",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Extract ontology information out of arbitrary SPARQL endpoints and visualize it using a modernized VOWL-like representation.",
-  "author": "Marc Weise, Steffen Lohmann, Florian Haag. Modernized by Adrian Gschwend, Qlevia AI.",
+  "author": "Adrian Gschwend, Qlevia AI.",
   "scripts": {
     "compile-config": "node scripts/compile-config.js",
     "dev": "npm run compile-config && vite",
