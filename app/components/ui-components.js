@@ -58,7 +58,7 @@ export class HeaderComponent extends HTMLElement {
         }
       </style>
       <header>
-        <h1>LD-VOWL NG</h1>
+        <h1>LDG</h1>
         <div class="nav">
           <span class="active" id="nav-graph">Graph</span>
           <span id="nav-settings">Settings</span>
@@ -69,14 +69,14 @@ export class HeaderComponent extends HTMLElement {
         <div class="overlay-content">
           <div class="close-overlay" id="close-about">&times;</div>
           <div class="about-header">
-             <img src="logo.png" alt="LD-VOWL NG Logo" class="about-logo">
-             <h2>LD-VOWL NG</h2>
+             <img src="logo.png" alt="LDG Logo" class="about-logo">
+             <h2>LDG</h2>
           </div>
-          <p>LD-VOWL NG (Next Generation) is a premium visualization tool for Linked Data that provides a VOWL-compliant representation of arbitrary SPARQL endpoints.</p>
+          <p>LDG (Linked Data Grapher) is a premium visualization tool for Linked Data that provides a VOWL-compliant representation of arbitrary SPARQL endpoints.</p>
           <div class="about-section">
             <h4>History</h4>
             <p>Based on the original idea and implementation by Marc Weise, Steffen Lohmann, and Florian Haag.</p>
-            <p>This modernized version was completely refactored by <strong>Adrian Gschwend</strong> using <strong>Antigravity</strong>. No legacy code was reused; the entire stack was rebuilt for the modern web using Web Components, D3.js v7, and Sigma.js.</p>
+            <p>This modernized version was refactored by <strong>Adrian Gschwend</strong> using <strong>Antigravity</strong>. The entire stack was rebuilt for the modern web using Web Components, D3.js v7, and Sigma.js.</p>
           </div>
           <div class="links">
             <a href="https://github.com/VisualDataWeb/LD-VOWL" target="_blank">Project Home</a>
@@ -163,7 +163,7 @@ export class HeaderComponent extends HTMLElement {
     this.shadowRoot.appendChild(style);
 
     this.shadowRoot.querySelector('#nav-settings').addEventListener('click', () => {
-      window.dispatchEvent(new CustomEvent('toggle-sidebar', {}));
+      window.dispatchEvent(new CustomEvent('toggle-sidebar', { detail: { open: true } }));
     });
 
     const aboutOverlay = this.shadowRoot.querySelector('#about-overlay');
@@ -187,6 +187,7 @@ export class SidebarComponent extends HTMLElement {
     this._selected = null;
     this._open = false;
     this._activeGroup = null;
+    this._configs = { endpoints: [], filters: [], themes: [] };
   }
 
   set open(value) {
@@ -214,11 +215,26 @@ export class SidebarComponent extends HTMLElement {
     this.render();
   }
 
-  connectedCallback() {
+  async connectedCallback() {
+    await this.loadConfigs();
     this.render();
     window.addEventListener('toggle-sidebar', (e) => {
-      this.open = e.detail.open !== undefined ? e.detail.open : !this.open;
+      const targetOpen = e.detail && e.detail.open !== undefined ? e.detail.open : !this.open;
+      this.open = targetOpen;
     });
+  }
+
+  async loadConfigs() {
+    try {
+      const [endpoints, filters, themes] = await Promise.all([
+        fetch('config/endpoints.json').then(r => r.json()),
+        fetch('config/filters.json').then(r => r.json()),
+        fetch('config/themes.json').then(r => r.json())
+      ]);
+      this._configs = { endpoints, filters, themes };
+    } catch (e) {
+      console.error('Failed to load configs:', e);
+    }
   }
 
   render() {
@@ -271,12 +287,18 @@ export class SidebarComponent extends HTMLElement {
 
     const rendererHtml = `
       <div class="group">
-        <h3>Renderer</h3>
+        <h3>Renderer & Theme</h3>
         <div class="stat-item">
-          <span>Current</span>
-          <select id="renderer-toggle" style="background: #1e293b; color: white; border: 1px solid #334155; border-radius: 4px; padding: 2px 4px;">
+          <span>Renderer</span>
+          <select id="renderer-toggle" class="ldg-select">
             <option value="d3">D3 (VOWL Standard)</option>
             <option value="sigma">Sigma.js (WebGL)</option>
+          </select>
+        </div>
+        <div class="stat-item">
+          <span>Theme</span>
+          <select id="theme-toggle" class="ldg-select">
+            ${this._configs.themes.map(t => `<option value="${t.identifier}">${t.label}</option>`).join('')}
           </select>
         </div>
       </div>
@@ -407,15 +429,44 @@ export class SidebarComponent extends HTMLElement {
           transform: rotate(90deg);
         }
         
-        .control-row {
-          display: flex;
-          justify-content: space-between;
+        .ldg-select {
+          background: #1e293b; 
+          color: white; 
+          border: 1px solid rgba(255,255,255,0.1); 
+          border-radius: 6px; 
+          padding: 4px 8px;
+          font-size: 0.8rem;
+          outline: none;
+          cursor: pointer;
+        }
+        .ldg-select:hover { border-color: #3b82f6; }
+        
+        .ldg-input {
+          width: 100%; 
+          background: #0f172a; 
+          border: 1px solid #334155; 
+          color: white; 
+          padding: 6px 8px; 
+          border-radius: 6px; 
+          font-size: 0.75rem;
           margin-bottom: 0.5rem;
+          outline: none;
         }
-        .control-row input[type="range"] {
-          flex: 1;
-          margin-left: 1rem;
+        .ldg-input:focus { border-color: #3b82f6; }
+
+        .ldg-btn {
+          width: 100%; 
+          background: #3b82f6; 
+          border: none; 
+          color: white; 
+          border-radius: 6px; 
+          padding: 6px; 
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 0.8rem;
+          transition: background 0.2s;
         }
+        .ldg-btn:hover { background: #2563eb; }
       </style>
       <aside class="${this._open ? 'open' : ''}">
         <div class="close-btn" id="close-sidebar">&times;</div>
@@ -426,14 +477,12 @@ export class SidebarComponent extends HTMLElement {
         <div class="group">
           <div class="accordion-item" data-id="filters"><span>Filters</span> <span class="icon">›</span></div>
           <div class="accordion-content" id="content-filters">
-            <div class="control-row">
-              <span>Datatypes</span>
-              <input type="checkbox" id="filter-datatypes" checked>
-            </div>
-            <div class="control-row">
-              <span>Disconnected</span>
-              <input type="checkbox" id="filter-disconnected">
-            </div>
+            ${this._configs.filters.map(f => `
+              <div class="control-row">
+                <span>${f.label}</span>
+                <input type="checkbox" id="filter-${f.identifier}" ${f.defaultValue ? 'checked' : ''}>
+              </div>
+            `).join('')}
           </div>
 
           <div class="accordion-item" data-id="graph"><span>Graph Settings</span> <span class="icon">›</span></div>
@@ -465,8 +514,12 @@ export class SidebarComponent extends HTMLElement {
           <div class="accordion-item" data-id="endpoint"><span>Endpoint</span> <span class="icon">›</span></div>
           <div class="accordion-content" id="content-endpoint">
             <div style="padding-top: 5px;">
-              <input type="text" id="endpoint-url" style="width: 100%; background: #0f172a; border: 1px solid #334155; color: white; padding: 4px; border-radius: 4px; font-size: 0.75rem;">
-              <button id="apply-endpoint" style="width: 100%; margin-top: 5px; background: #3b82f6; border: none; color: white; border-radius: 4px; padding: 4px; cursor: pointer;">Apply</button>
+              <select id="endpoint-presets" class="ldg-select" style="width: 100%; margin-bottom: 0.5rem;">
+                <option value="">-- Presets --</option>
+                ${this._configs.endpoints.map(e => `<option value="${e.endpoint}">${e.label}</option>`).join('')}
+              </select>
+              <input type="text" id="endpoint-url" class="ldg-input" placeholder="Custom URL...">
+              <button id="apply-endpoint" class="ldg-btn">Apply</button>
             </div>
           </div>
         </div>
@@ -492,21 +545,32 @@ export class SidebarComponent extends HTMLElement {
     });
 
     const endpointInput = this.shadowRoot.querySelector('#endpoint-url');
-    if (endpointInput) {
+    const endpointPresets = this.shadowRoot.querySelector('#endpoint-presets');
+    if (endpointInput && endpointPresets) {
       endpointInput.value = localStorage.getItem('endpoint') || '';
+      endpointPresets.addEventListener('change', (e) => {
+        if (e.target.value) endpointInput.value = e.target.value;
+      });
       this.shadowRoot.querySelector('#apply-endpoint').addEventListener('click', () => {
         localStorage.setItem('endpoint', endpointInput.value);
         window.location.reload();
       });
     }
 
-    // Wiring controls
-    this.shadowRoot.querySelector('#filter-datatypes').addEventListener('change', (e) => {
-      this.dispatchEvent(new CustomEvent('filter-changed', { detail: { type: 'datatypes', active: e.target.checked }, bubbles: true, composed: true }));
+    // Wiring dynamic filters
+    this._configs.filters.forEach(f => {
+      const checkbox = this.shadowRoot.querySelector(`#filter-${f.identifier}`);
+      if (checkbox) {
+        checkbox.addEventListener('change', (e) => {
+          this.dispatchEvent(new CustomEvent('filter-changed', {
+            detail: { type: f.identifier, active: e.target.checked },
+            bubbles: true,
+            composed: true
+          }));
+        });
+      }
     });
-    this.shadowRoot.querySelector('#filter-disconnected').addEventListener('change', (e) => {
-      this.dispatchEvent(new CustomEvent('filter-changed', { detail: { type: 'disconnected', active: e.target.checked }, bubbles: true, composed: true }));
-    });
+
     this.shadowRoot.querySelector('#setting-gravity').addEventListener('input', (e) => {
       this.dispatchEvent(new CustomEvent('setting-changed', { detail: { type: 'gravity', value: e.target.value }, bubbles: true, composed: true }));
     });
@@ -529,12 +593,22 @@ export class SidebarComponent extends HTMLElement {
       this.open = false;
     });
 
-    const select = this.shadowRoot.querySelector('#renderer-toggle');
-    if (select) {
-      select.value = localStorage.getItem('vowl-renderer') || 'd3';
-      select.addEventListener('change', (e) => {
+    const rendererSelect = this.shadowRoot.querySelector('#renderer-toggle');
+    if (rendererSelect) {
+      rendererSelect.value = localStorage.getItem('vowl-renderer') || 'd3';
+      rendererSelect.addEventListener('change', (e) => {
         localStorage.setItem('vowl-renderer', e.target.value);
-        window.location.reload(); // Refresh to switch renderer
+        window.location.reload();
+      });
+    }
+
+    const themeSelect = this.shadowRoot.querySelector('#theme-toggle');
+    if (themeSelect) {
+      themeSelect.value = localStorage.getItem('ldg-theme') || 'modern';
+      themeSelect.addEventListener('change', (e) => {
+        const theme = this._configs.themes.find(t => t.identifier === e.target.value);
+        localStorage.setItem('ldg-theme', e.target.value);
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
       });
     }
   }

@@ -1,11 +1,12 @@
 {
-  "name": "ld-vowl-ng",
+  "name": "ldg",
   "version": "0.1.0",
   "description": "Extract ontology information out of arbitrary SPARQL endpoints and visualize it using a modernized VOWL-like representation.",
   "author": "Marc Weise, Steffen Lohmann, Florian Haag. Modernized by Adrian Gschwend, Qlevia AI.",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "compile-config": "node scripts/compile-config.js",
+    "dev": "npm run compile-config && vite",
+    "build": "npm run compile-config && vite build",
     "preview": "vite preview"
   },
   "type": "module",
@@ -17,6 +18,8 @@
     "sigma": "^3.0.2"
   },
   "devDependencies": {
+    "n3": "^2.0.1",
+    "terser": "^5.46.0",
     "vite": "^7.3.1"
   },
   "repository": {

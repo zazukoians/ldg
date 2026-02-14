@@ -1,0 +1,18 @@
+@prefix schema: <http://schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <https://github.com/zazuko/ldg/config#> .
+
+:FilterDatatypes a schema:ControlAction ;
+    rdfs:label "Datatypes" ;
+    schema:identifier "datatypes" ;
+    schema:defaultValue true .
+
+:FilterDisconnected a schema:ControlAction ;
+    rdfs:label "Disconnected" ;
+    schema:identifier "disconnected" ;
+    schema:defaultValue false .
+
+:FilterSubclasses a schema:ControlAction ;
+    rdfs:label "Subclasses" ;
+    schema:identifier "subclasses" ;
+    schema:defaultValue true .

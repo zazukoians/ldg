@@ -1,0 +1,23 @@
+[
+  {
+    "id": "https://github.com/zazuko/ldg/config#FilterDatatypes",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/ControlAction",
+    "label": "Datatypes",
+    "identifier": "datatypes",
+    "defaultValue": true
+  },
+  {
+    "id": "https://github.com/zazuko/ldg/config#FilterDisconnected",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/ControlAction",
+    "label": "Disconnected",
+    "identifier": "disconnected",
+    "defaultValue": false
+  },
+  {
+    "id": "https://github.com/zazuko/ldg/config#FilterSubclasses",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/ControlAction",
+    "label": "Subclasses",
+    "identifier": "subclasses",
+    "defaultValue": true
+  }
+]

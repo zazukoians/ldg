@@ -1,0 +1,52 @@
+[
+  {
+    "id": "https://github.com/zazuko/ldg/config#ThemeModern",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
+    "label": "Modern Dark",
+    "identifier": "modern",
+    "primaryColor": "#3b82f6",
+    "secondaryColor": "#0f172a",
+    "nodeColor": "#1e293b",
+    "textColor": "#f8fafc"
+  },
+  {
+    "id": "https://github.com/zazuko/ldg/config#ThemePastelBlue",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
+    "label": "Pastel Blue",
+    "identifier": "pastel-blue",
+    "primaryColor": "#a5f3fc",
+    "secondaryColor": "#f8fafc",
+    "nodeColor": "#ecfeff",
+    "textColor": "#0891b2"
+  },
+  {
+    "id": "https://github.com/zazuko/ldg/config#ThemePastelRose",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
+    "label": "Pastel Rose",
+    "identifier": "pastel-rose",
+    "primaryColor": "#fecdd3",
+    "secondaryColor": "#fff1f2",
+    "nodeColor": "#fff1f2",
+    "textColor": "#be123c"
+  },
+  {
+    "id": "https://github.com/zazuko/ldg/config#ThemePastelGreen",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
+    "label": "Pastel Green",
+    "identifier": "pastel-green",
+    "primaryColor": "#bbf7d0",
+    "secondaryColor": "#f0fdf4",
+    "nodeColor": "#f0fdf4",
+    "textColor": "#15803d"
+  },
+  {
+    "id": "https://github.com/zazuko/ldg/config#ThemeVOWLClassic",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "http://schema.org/CreativeWork",
+    "label": "VOWL Classic",
+    "identifier": "vowl-classic",
+    "primaryColor": "#000000",
+    "secondaryColor": "#ffffff",
+    "nodeColor": "#ffffff",
+    "textColor": "#000000"
+  }
+]

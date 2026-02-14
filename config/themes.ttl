@@ -1,0 +1,43 @@
+@prefix schema: <http://schema.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <https://github.com/zazuko/ldg/config#> .
+
+:ThemeModern a schema:CreativeWork ;
+    rdfs:label "Modern Dark" ;
+    schema:identifier "modern" ;
+    :primaryColor "#3b82f6" ;
+    :secondaryColor "#0f172a" ;
+    :nodeColor "#1e293b" ;
+    :textColor "#f8fafc" .
+
+:ThemePastelBlue a schema:CreativeWork ;
+    rdfs:label "Pastel Blue" ;
+    schema:identifier "pastel-blue" ;
+    :primaryColor "#a5f3fc" ;
+    :secondaryColor "#f8fafc" ;
+    :nodeColor "#ecfeff" ;
+    :textColor "#0891b2" .
+
+:ThemePastelRose a schema:CreativeWork ;
+    rdfs:label "Pastel Rose" ;
+    schema:identifier "pastel-rose" ;
+    :primaryColor "#fecdd3" ;
+    :secondaryColor "#fff1f2" ;
+    :nodeColor "#fff1f2" ;
+    :textColor "#be123c" .
+
+:ThemePastelGreen a schema:CreativeWork ;
+    rdfs:label "Pastel Green" ;
+    schema:identifier "pastel-green" ;
+    :primaryColor "#bbf7d0" ;
+    :secondaryColor "#f0fdf4" ;
+    :nodeColor "#f0fdf4" ;
+    :textColor "#15803d" .
+
+:ThemeVOWLClassic a schema:CreativeWork ;
+    rdfs:label "VOWL Classic" ;
+    schema:identifier "vowl-classic" ;
+    :primaryColor "#000000" ;
+    :secondaryColor "#ffffff" ;
+    :nodeColor "#ffffff" ;
+    :textColor "#000000" .

@@ -5,6 +5,12 @@
   --bg-color: #0f172a;
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Theme Variables (applied dynamically) */
+  --ldg-primary: #3b82f6;
+  --ldg-secondary: #0f172a;
+  --ldg-node: #1e293b;
+  --ldg-text: #f8fafc;
 }
 
 body,
@@ -14,9 +20,9 @@ html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--bg-color);
+  background: var(--ldg-secondary);
   font-family: 'Inter', sans-serif;
-  color: white;
+  color: var(--ldg-text);
 }
 
 #app {

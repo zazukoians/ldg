@@ -1,0 +1,68 @@
+@prefix schema: <http://schema.org/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <https://github.com/zazuko/ldg/config#> .
+
+:LINDAS a schema:Dataset ;
+    rdfs:label "Swiss Government LINDAS" ;
+    void:sparqlEndpoint <https://lindas.admin.ch/query> .
+
+:Wikidata a schema:Dataset ;
+    rdfs:label "Wikidata" ;
+    void:sparqlEndpoint <https://qlever.dev/api/wikidata> .
+
+:WikimediaCommons a schema:Dataset ;
+    rdfs:label "Wikimedia Commons" ;
+    void:sparqlEndpoint <https://qlever.dev/api/wikimedia-commons> .
+
+:Freebase a schema:Dataset ;
+    rdfs:label "Freebase" ;
+    void:sparqlEndpoint <https://qlever.dev/api/freebase> .
+
+:FreebaseEasy a schema:Dataset ;
+    rdfs:label "Freebase Easy" ;
+    void:sparqlEndpoint <https://qlever.dev/api/fbeasy> .
+
+:OSMPlanet a schema:Dataset ;
+    rdfs:label "OSM Planet" ;
+    void:sparqlEndpoint <https://qlever.dev/api/osm-planet> .
+
+:OHMPlanet a schema:Dataset ;
+    rdfs:label "OHM Planet" ;
+    void:sparqlEndpoint <https://qlever.dev/api/ohm-planet> .
+
+:UniProt a schema:Dataset ;
+    rdfs:label "UniProt" ;
+    void:sparqlEndpoint <https://qlever.dev/api/uniprot> .
+
+:PubChem a schema:Dataset ;
+    rdfs:label "PubChem" ;
+    void:sparqlEndpoint <https://qlever.dev/api/pubchem> .
+
+:DBLP a schema:Dataset ;
+    rdfs:label "DBLP" ;
+    void:sparqlEndpoint <https://qlever.dev/api/dblp> .
+
+:IMDb a schema:Dataset ;
+    rdfs:label "IMDb" ;
+    void:sparqlEndpoint <https://qlever.dev/api/imdb> .
+
+:DNB a schema:Dataset ;
+    rdfs:label "Deutsche Nationalbibliothek" ;
+    void:sparqlEndpoint <https://qlever.dev/api/dnb> .
+
+:Yago3 a schema:Dataset ;
+    rdfs:label "Yago 3" ;
+    void:sparqlEndpoint <https://qlever.dev/api/yago-3> .
+
+:Yago4 a schema:Dataset ;
+    rdfs:label "Yago 4" ;
+    void:sparqlEndpoint <https://qlever.dev/api/yago-4> .
+
+:DBpedia a schema:Dataset ;
+    rdfs:label "DBpedia" ;
+    void:sparqlEndpoint <https://qlever.dev/api/dbpedia> .
+
+:Olympics a schema:Dataset ;
+    rdfs:label "Olympics" ;
+    void:sparqlEndpoint <https://qlever.dev/api/olympics> .

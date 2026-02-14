@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LDG Simple Usage</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: sans-serif;
+        }
+
+        #visualization {
+            width: 100vw;
+            height: 100vh;
+            background: #0f172a;
+        }
+
+        .instructions {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="instructions">
+        <h1>LDG Standalone Example</h1>
+        <p>This page demonstrates how to embed LDG as a pure client-side component.</p>
+        <p>Ensure you serve this from a local server (e.g., <code>npx serve .</code>) to handle ES modules correctly.
+        </p>
+    </div>
+
+    <!-- LDG Components -->
+    <div id="visualization">
+        <vowl-graph id="graph"></vowl-graph>
+    </div>
+
+    <!-- Main Entry Script -->
+    <script type="module">
+        // In a real integration, you would point to the bundled ldg.js or use the source if in a Vite project.
+        // For this example, we assume we are running in the project's 'app' context or similar.
+
+        // Custom theme override example (optional)
+        document.documentElement.style.setProperty('--ldg-primary', '#a5f3fc');
+        document.documentElement.style.setProperty('--ldg-secondary', '#082f49');
+
+        console.log('LDG handles all SPARQL extraction and VOWL visualization client-side.');
+    </script>
+</body>
+
+</html>

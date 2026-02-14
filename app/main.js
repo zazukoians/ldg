@@ -45,8 +45,36 @@ if (rendererType === 'sigma') {
   graph = document.querySelector('vowl-graph');
 }
 
-// Set default endpoint (QLever)
-requestConfig.setEndpointURL('https://qlever-server-showcase.zazukoians.org');
+// Set initial endpoint
+const savedEndpoint = localStorage.getItem('endpoint');
+if (savedEndpoint) {
+  requestConfig.setEndpointURL(savedEndpoint);
+} else {
+  requestConfig.setEndpointURL('https://lindas.admin.ch/query');
+}
+
+// Initial Theme Application
+const applyTheme = (theme) => {
+  if (!theme) return;
+  document.documentElement.style.setProperty('--ldg-primary', theme.primaryColor);
+  document.documentElement.style.setProperty('--ldg-secondary', theme.secondaryColor);
+  document.documentElement.style.setProperty('--ldg-node', theme.nodeColor);
+  document.documentElement.style.setProperty('--ldg-text', theme.textColor);
+};
+
+// Listen for theme changes
+window.addEventListener('theme-changed', (e) => {
+  applyTheme(e.detail);
+});
+
+// Load and apply initial theme from config if available
+async function loadInitialTheme() {
+  const themes = await fetch('config/themes.json').then(r => r.json());
+  const savedThemeId = localStorage.getItem('ldg-theme') || 'modern';
+  const theme = themes.find(t => t.identifier === savedThemeId);
+  applyTheme(theme);
+}
+loadInitialTheme();
 
 // Event Listeners
 nodes.on('nodes-changed', (nodeMap) => {
