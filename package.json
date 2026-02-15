@@ -1,6 +1,6 @@
 {
   "name": "ldg",
-  "version": "0.2.7",
+  "version": "0.3.0",
   "description": "Extract ontology information out of arbitrary SPARQL endpoints and visualize it using a modernized VOWL-like representation.",
   "author": "Adrian Gschwend, Qlevia AI.",
   "scripts": {
