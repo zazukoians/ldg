@@ -6,10 +6,10 @@ const { Parser } = n3;
 
 async function compileTTL(filename) {
     const ttlPath = path.join(process.cwd(), 'config', filename);
-    const jsonPath = path.join(process.cwd(), 'app', 'config', filename.replace('.ttl', '.json'));
+    const jsonPath = path.join(process.cwd(), 'app', 'public', 'config', filename.replace('.ttl', '.json'));
 
-    if (!fs.existsSync(path.join(process.cwd(), 'app', 'config'))) {
-        fs.mkdirSync(path.join(process.cwd(), 'app', 'config'), { recursive: true });
+    if (!fs.existsSync(path.join(process.cwd(), 'app', 'public', 'config'))) {
+        fs.mkdirSync(path.join(process.cwd(), 'app', 'public', 'config'), { recursive: true });
     }
 
     const parser = new Parser();
