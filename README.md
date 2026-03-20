@@ -2,6 +2,8 @@
 
 LDG is like a map for your data. Point it at any database and it instantly draws a picture of how the different pieces of information are connected, helping you navigate complex datasets at a glance.
 
+Try it out [here](https://zazukoians.github.io/ldg/).
+
 ## Performance & Scalability
 
 > [!IMPORTANT]
